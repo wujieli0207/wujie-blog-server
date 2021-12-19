@@ -6,6 +6,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PostEntity } from './post/post.entity';
 import { PostModule } from './post/post.module';
+import { BlogModule } from './blog/blog.module';
+import { BlogEntity } from './blog/entities/blog.entity';
 
 @Module({
   imports: [
@@ -18,17 +20,18 @@ import { PostModule } from './post/post.module';
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({
         type: 'mysql', // 数据库类型
-        entities: [PostEntity], // 数据表实体
+        entities: [PostEntity, BlogEntity], // 数据表实体
         host: configService.get('DB_HOST', 'localhost'), // 主机，默认为localhost
         port: configService.get<number>('DB_PORT', 3306),
         username: configService.get('DB_USER', ''),
         password: configService.get('DB_PASSWORD', ''),
         database: configService.get('DB_DATABASE', ''),
         timezone: '+08:00', //服务器上配置的时区
-        synchronize: true, //根据实体自动创建数据库表
+        synchronize: false, //根据实体自动创建数据库表
       }),
     }),
     PostModule,
+    BlogModule,
   ],
   controllers: [AppController],
   providers: [AppService],
