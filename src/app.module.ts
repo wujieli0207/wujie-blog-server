@@ -4,8 +4,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import envConfig from '../config/env';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { PostEntity } from './post/post.entity';
-import { PostModule } from './post/post.module';
 import { BlogModule } from './blog/blog.module';
 import { BlogEntity } from './blog/entities/blog.entity';
 
@@ -20,7 +18,7 @@ import { BlogEntity } from './blog/entities/blog.entity';
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({
         type: 'mysql', // 数据库类型
-        entities: [PostEntity, BlogEntity], // 数据表实体
+        entities: [BlogEntity], // 数据表实体
         host: configService.get('DB_HOST', 'localhost'), // 主机，默认为localhost
         port: configService.get<number>('DB_PORT', 3306),
         username: configService.get('DB_USER', ''),
@@ -30,7 +28,6 @@ import { BlogEntity } from './blog/entities/blog.entity';
         synchronize: false, //根据实体自动创建数据库表
       }),
     }),
-    PostModule,
     BlogModule,
   ],
   controllers: [AppController],
