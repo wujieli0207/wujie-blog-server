@@ -17,16 +17,17 @@ export class BlogService {
     @InjectRepository(BlogEntity)
     private readonly blogRepository: Repository<BlogEntity>,
   ) {}
-
   /**
    *
    * @returns
    * @description 查询全部文章
    */
   async findAll(): Promise<BlogRo> {
-    const qb = getRepository(BlogEntity).createQueryBuilder('t_blog');
-    qb.where('1=1');
-    qb.orderBy('t_blog.create_time', 'DESC');
+    const qb = getRepository(BlogEntity)
+      .createQueryBuilder('t_blog')
+      .where('1=1')
+      .where("t_blog.rc_state = 'E'")
+      .orderBy('t_blog.create_time', 'DESC');
 
     const count = await qb.getCount();
 
