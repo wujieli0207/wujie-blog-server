@@ -6,6 +6,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { BlogModule } from './blog/blog.module';
 import { BlogEntity } from './blog/entities/blog.entity';
+import { DictModule } from './dict/dict.module';
+import { DictEntity } from './dict/entities/dict.entity';
 
 @Module({
   imports: [
@@ -18,7 +20,7 @@ import { BlogEntity } from './blog/entities/blog.entity';
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({
         type: 'mysql', // 数据库类型
-        entities: [BlogEntity], // 数据表实体
+        entities: [BlogEntity, DictEntity], // 数据表实体
         host: configService.get('DB_HOST', 'localhost'), // 主机，默认为localhost
         port: configService.get<number>('DB_PORT', 3306),
         username: configService.get('DB_USER', ''),
@@ -29,6 +31,7 @@ import { BlogEntity } from './blog/entities/blog.entity';
       }),
     }),
     BlogModule,
+    DictModule,
   ],
   controllers: [AppController],
   providers: [AppService],

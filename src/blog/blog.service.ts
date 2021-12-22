@@ -69,6 +69,13 @@ export class BlogService {
     return await this.blogRepository.save(createBlogDto);
   }
 
+  /**
+   *
+   * @param id
+   * @param updateBlogDto
+   * @returns
+   * @description 新增博客
+   */
   async update(id: string, updateBlogDto: UpdateBlogDto) {
     const existBlog = await this.blogRepository.findOne(id);
     if (!existBlog) {
